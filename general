@@ -1,0 +1,7 @@
+#Value size check
+SELECT h.host,i.key_,max(length(ph.value)) as max_length,count(*)
+FROM proxy_history ph
+JOIN items i ON ph.itemid = i.itemid
+JOIN hosts h ON (h.hostid = i.hostid)
+WHERE clock >= UNIX_TIMESTAMP(NOW() - INTERVAL 2 HOUR)
+GROUP BY h.host,i.key_ ORDER BY max_length DESC LIMIT 100; 
